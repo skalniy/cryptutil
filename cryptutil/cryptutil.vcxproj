@@ -146,6 +146,7 @@
     <ClCompile Include="padding_modes.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ciphers.h" />
     <ClInclude Include="cryptutil.h" />
     <ClInclude Include="padding_modes.h" />
   </ItemGroup>
