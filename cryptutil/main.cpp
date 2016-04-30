@@ -1,5 +1,5 @@
 #include "cryptutil.h"
-
+#include "padding_modes.h"
 
 
 using namespace std;
@@ -7,6 +7,11 @@ using namespace std;
 
 int main()
 {
+	byte *test;
+	test = (byte *) calloc(5, sizeof(byte));
+	test[0] = 65;
+	pkcs7(test, 4, 1);
+
 	string cmd;
 	do
 	{
