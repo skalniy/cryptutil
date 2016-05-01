@@ -3,48 +3,73 @@
 #include <vector>
 
 
-byte* transposition_encrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
 
-	for (size_t i = 0; i < block_size; i++)
-		result[key[i]] = block[i];
-
-	return result;
-}
+using namespace std;
 
 
-byte* transposition_decrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
-
-	for (size_t i = 0; i < block_size; i++)
-		result[i] = block[key[i]];
-
-	return result;
-}
+class Cipher
+{
+public:
+	virtual byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key) = 0;
+	virtual	byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key) = 0;
+};
 
 
-byte* vigenere_encrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
-	
-	for (size_t i = 0; i < block_size; i++)
-		result[i] = (block[i] + key[i]) % 256;
+class Transposition : Cipher
+{
+public:
+	static byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key) 
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
 
-	return result;
-}
+		for (size_t i = 0; i < block_size; i++)
+			result[key[i]] = block[i];
+
+		return result;
+	}
 
 
-byte* vigenere_decrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
+	static byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key) 
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
 
-	for (size_t i = 0; i < block_size; i++)
-		result[i] = (block[i] - key[i] + 256) % 256;
+		for (size_t i = 0; i < block_size; i++)
+			result[i] = block[key[i]];
 
-	return result;
-}
+		return result;
+	}
+};
+
+
+class Vigenere : Cipher
+{
+public:
+	byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key) 
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
+
+		for (size_t i = 0; i < block_size; i++)
+			result[i] = (block[i] + key[i]) % 256;
+
+		return result;
+	}
+
+
+	byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key)
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
+
+		for (size_t i = 0; i < block_size; i++)
+			result[i] = (block[i] - key[i] + 256) % 256;
+
+		return result;
+	}
+};
+
 
 
 byte* hill_encrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
@@ -64,8 +89,6 @@ byte* hill_encrypt(const byte* block, size_t block_size, std::vector<byte>& key)
 byte* hill_decrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
 	byte* result = new byte[block_size + 1];
 	result[block_size] = '\0';
-
-	
 
 	return result;
 }
