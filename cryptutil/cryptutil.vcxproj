@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ciphers.h" />
+    <ClInclude Include="cipher_modes.h" />
     <ClInclude Include="cryptutil.h" />
     <ClInclude Include="padding_modes.h" />
   </ItemGroup>
