@@ -71,24 +71,29 @@ public:
 };
 
 
+class Hill : Cipher
+{
+public:
+	static byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key)
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
+		for (size_t i = 0; i < block_size; i++)
+			result[i] = 0;
 
-byte* hill_encrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
-	for (size_t i = 0; i < block_size; i++)
-		result[i] = 0;
+		for (size_t i = 0; i < block_size; i++)
+			for (size_t j = 0; j < block_size; j++)
+				result[i] += key[i*block_size + j] * block[j] % 257;
 
-	for (size_t i = 0; i < block_size; i++)
-		for (size_t j = 0; j < block_size; j++)
-			result[i] += key[i*block_size + j] * block[j] % 257;
-
-	return result;
-}
+		return result;
+	}
 
 
-byte* hill_decrypt(const byte* block, size_t block_size, std::vector<byte>& key) {
-	byte* result = new byte[block_size + 1];
-	result[block_size] = '\0';
+	static byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key)
+	{
+		byte* result = new byte[block_size + 1];
+		result[block_size] = '\0';
 
-	return result;
-}
+		return result;
+	}
+};
