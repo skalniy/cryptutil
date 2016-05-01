@@ -4,6 +4,7 @@
 #include "cryptutil.h"
 #include "ciphers.h"
 #include "cipher_modes.h"
+#include "padding_modes.h"
 
 
 using namespace std;
