@@ -46,7 +46,7 @@ public:
 class Vigenere : Cipher
 {
 public:
-	byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key) 
+	static byte* encrypt(const byte* block, const size_t block_size, vector<byte>& key) 
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -58,7 +58,7 @@ public:
 	}
 
 
-	byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key)
+	static byte* decrypt(const byte* block, const size_t block_size, vector<byte>& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';

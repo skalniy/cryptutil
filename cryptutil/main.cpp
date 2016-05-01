@@ -25,7 +25,7 @@ int main()
 			
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);
-			ecb_decrypt(ost, d, 3, key, init_vector, Transposition::decrypt, ansi_x923);
+			ecb_decrypt(ost, d, 3, key, init_vector, Vigenere::decrypt, ansi_x923);
 			ost.close();
 			d.close();
 		}
@@ -37,7 +37,7 @@ int main()
 			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			ecb_encrypt(ist, ost, 3, key, init_vector, Transposition::encrypt, ansi_x923);
+			ecb_encrypt(ist, ost, 3, key, init_vector, Vigenere::encrypt, ansi_x923);
 			ost.close();
 			ist.close();
 		}
