@@ -15,19 +15,45 @@ void ecb_encrypt(istream& ist, ostream& ost, size_t block_size,
 {
 	byte *block = new byte[block_size + 1];
 	block[block_size] = '\0';
-	byte *encrypted;
 
 	while (ist)
 	{
 		ist.read(block, block_size);
-		if (ist.gcount() != static_cast<streamsize>(block_size))
-			padding(block, block_size, static_cast<size_t>(ist.gcount()));
-		encrypted = cipher(block, block_size, key);
-		ost.write(encrypted, block_size);
+		if (ist.gcount()) {
+			if (ist.gcount() != static_cast<streamsize>(block_size))
+				padding(block, block_size, static_cast<size_t>(ist.gcount()));
+			byte *encrypted = cipher(block, block_size, key);
+			ost.write(encrypted, block_size);
+			delete[] encrypted;
+		}
 	}
 
 	delete[] block;
-	delete[] encrypted;
+	return;
+}
+
+
+void ecb_decrypt(istream& ist, ostream& ost, size_t block_size,
+	vector<byte>& key, byte* init_vector,
+	byte* (*cipher)(const byte* block, size_t block_size, vector<byte>& key),
+	void(*padding)(byte *block, size_t block_size, size_t filled_blocks))
+{
+	byte *block = new byte[block_size + 1];
+	block[block_size] = '\0';
+
+	while (ist)
+	{
+		ist.read(block, block_size);
+		if (ist.gcount()) {
+			if (ist.gcount() != static_cast<streamsize>(block_size))
+				padding(block, block_size, static_cast<size_t>(ist.gcount()));
+			byte *decrypted = cipher(block, block_size, key);
+			ost.write(decrypted, block_size);
+			delete[] decrypted;
+		}
+	}
+
+	delete[] block;
 	return;
 }
 

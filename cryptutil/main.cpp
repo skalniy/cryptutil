@@ -24,14 +24,14 @@ int main()
 			
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);
-			ofb_decrypt(ost, d, 3, key, init_vector, transposition, ansi_x923);
+			cbc_decrypt(ost, d, 3, key, init_vector, transposition_decrypt, ansi_x923);
 			ost.close();
 			d.close();
 		}
 		else if (cmd == "enc") {
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			ofb_encrypt(ist, ost, 3, key, init_vector, transposition, ansi_x923);
+			cbc_encrypt(ist, ost, 3, key, init_vector, transposition_encrypt, ansi_x923);
 			ost.close();
 			ist.close();
 		}
