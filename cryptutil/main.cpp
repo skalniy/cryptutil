@@ -22,7 +22,7 @@ int main()
 	{
 		cin >> cmd;
 		if (cmd == "ecb")
-			ecb(ist, cout, 3, key, transposition);
+			ecb(ist, cout, 3, key, transposition, ansi_x923);
 	} while (cmd != "quit");
 	return 0;
 }
