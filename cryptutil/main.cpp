@@ -23,7 +23,7 @@ int main()
 	{
 		cin >> cmd;
 		if (cmd == "cfb")
-			cfb(ist, ost, 3, key, init_vector, transposition, ansi_x923);
+			cfb_encrypt(ist, ost, 3, key, init_vector, transposition, ansi_x923);
 	} while (cmd != "quit");
 	
 	ist.close();

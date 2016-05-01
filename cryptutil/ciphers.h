@@ -3,7 +3,7 @@
 #include <vector>
 
 
-byte* transposition(byte* block, size_t block_size, std::vector<byte>& key) {
+byte* transposition(const byte* block, size_t block_size, std::vector<byte>& key) {
 	byte* result;
 	result = static_cast<byte*>(calloc(block_size+1, sizeof(byte)));
 	result[block_size] = '\0';
