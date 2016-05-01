@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cipher_modes.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="padding_modes.cpp" />
   </ItemGroup>
