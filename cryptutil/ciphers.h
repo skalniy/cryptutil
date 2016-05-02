@@ -11,6 +11,18 @@ class Cipher
 public:
 	virtual byte* encrypt(const byte* block, const size_t block_size, const TKey& key) = 0;
 	virtual	byte* decrypt(const byte* block, const size_t block_size, const TKey& key) = 0;
+
+	enum algorithm { TRANSPOSITION, VIGENERE, HILL };
+	static size_t get_block_size(size_t key_size, algorithm alg) {
+		switch (alg)
+		{
+		case Cipher::TRANSPOSITION:
+		case Cipher::VIGENERE:
+			return key_size;
+		case Cipher::HILL:
+			return static_cast<size_t>(sqrt(key_size));
+		}
+	}
 };
 
 

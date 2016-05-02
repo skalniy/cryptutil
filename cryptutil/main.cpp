@@ -6,7 +6,7 @@
 #include "ciphers.h"
 #include "padding_modes.h"
 #include "Pattern.h"
-
+#include <map>
 
 
 using namespace std;
@@ -21,24 +21,23 @@ int main()
 	byte init_vector[] = { 'm', 'i', 'r', '\0' };
 
 	Pattern& p = Pattern(
-		"check", "vigenere", 
+		"check", Cipher::algorithm::VIGENERE, 
 		key, init_vector, 
 		OperationMode::CBC, Padding::ISO10126);
 
+	map<string, Pattern> patterns;
+	patterns["check"] = p;
 	string cmd;
 	do
 	{
 		cin >> cmd;
 		if (cmd == "dec") {
-			
 			ifstream ost("out.txt", ios::binary);
-			ofstream d("dec.txt", ios::binary);
-			//ECB::decrypt(ost, d, 3, key, init_vector, get_decrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
-			p.decrypt(ost, d);
+			ofstream d("dec.txt", ios::binary);  
+			patterns["check"].decrypt(ost, d);
 			ost.close();
 			d.close();
-		}
-		else if (cmd == "enc") {
+		} else if (cmd == "enc") {
 			/*int n;
 			for (int i = 0; i < 9; i++) {
 				cin >> n;
@@ -46,8 +45,18 @@ int main()
 			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			p.encrypt(ist, ost);
+			patterns["check"].encrypt(ist, ost);
 			ost.close();
+			ist.close();
+		} else if (cmd == "print") {
+			ofstream ost("data.txt", ios::app);
+			ost << p;
+			ost.close();
+		} else if (cmd == "import") {
+			string fname;
+			cin >> fname;
+			ifstream ist(fname);
+			ist >> patterns[fname];
 			ist.close();
 		}
 	} while (cmd != "quit");
