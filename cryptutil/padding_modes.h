@@ -8,6 +8,19 @@
 class Padding
 {
 public:
+	enum mode { PKCS7, ANSI_X923, ISO10126 };
+	static padding_algorithm get_padding_algorithm(mode m) {
+		switch (m)
+		{
+		case Padding::PKCS7:
+			return pkcs7;
+		case Padding::ANSI_X923:
+			return ansi_x923;
+		case Padding::ISO10126:
+			return iso10126;
+		}
+	}
+
 	static void pkcs7(byte *block, const size_t block_size, const size_t filled_blocks) 
 	{
 		byte n = static_cast<byte>(block_size - filled_blocks);

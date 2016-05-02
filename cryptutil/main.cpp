@@ -20,6 +20,11 @@ int main()
 	key.push_back(1);
 	byte init_vector[] = { 'm', 'i', 'r', '\0' };
 
+	Pattern& p = Pattern(
+		"check", "vigenere", 
+		key, init_vector, 
+		OperationMode::ECB, Padding::ISO10126);
+
 	string cmd;
 	do
 	{
@@ -40,7 +45,7 @@ int main()
 			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			ECB::encrypt(ist, ost, 3, key, init_vector, get_encrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
+			p.encrypt(ist, ost);
 			ost.close();
 			ist.close();
 		}

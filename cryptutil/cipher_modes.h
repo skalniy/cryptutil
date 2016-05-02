@@ -23,7 +23,7 @@ public:
 		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
 
-	enum modes { ECB, CFB, OFB, CBC };
+	enum mode { ECB, CFB, OFB, CBC };
 };
 
 
