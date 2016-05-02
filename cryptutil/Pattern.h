@@ -76,6 +76,33 @@ public:
 		case OperationMode::ECB:
 			ECB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, pad_mode);
 			break;
+		case OperationMode::CFB:
+			CFB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, pad_mode);
+			break;
+		case OperationMode::OFB:
+			OFB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, pad_mode);
+			break;
+		case OperationMode::CBC:
+			CBC::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, pad_mode);
+			break;
+		}
+	}
+
+	void decrypt(istream& ist, ostream& ost) {
+		switch (op_mode)
+		{
+		case OperationMode::ECB:
+			ECB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, pad_mode);
+			break;
+		case OperationMode::CFB:
+			CFB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, pad_mode);
+			break;
+		case OperationMode::OFB:
+			OFB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, pad_mode);
+			break;
+		case OperationMode::CBC:
+			CBC::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, pad_mode);
+			break;
 		}
 	}
 private:

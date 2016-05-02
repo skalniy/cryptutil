@@ -23,7 +23,7 @@ int main()
 	Pattern& p = Pattern(
 		"check", "vigenere", 
 		key, init_vector, 
-		OperationMode::ECB, Padding::ISO10126);
+		OperationMode::CBC, Padding::ISO10126);
 
 	string cmd;
 	do
@@ -33,7 +33,8 @@ int main()
 			
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);
-			ECB::decrypt(ost, d, 3, key, init_vector, get_decrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
+			//ECB::decrypt(ost, d, 3, key, init_vector, get_decrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
+			p.decrypt(ost, d);
 			ost.close();
 			d.close();
 		}
