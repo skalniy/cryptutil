@@ -1,7 +1,6 @@
 #pragma once
 #include "cryptutil.h"
 #include <iostream>
-#include <vector>
 
 
 
@@ -13,18 +12,18 @@ class OperationMode
 public:
 	virtual void encrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void (*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
 
 
 	virtual void decrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void (*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
+
+	enum modes { ECB, CFB, OFB, CBC };
 };
 
 
@@ -33,9 +32,8 @@ class ECB : OperationMode
 public:
 	static void encrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void (*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		) 
 	{
 		byte *block = new byte[block_size + 1];
@@ -60,9 +58,8 @@ public:
 
 	static void decrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void (*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -91,9 +88,8 @@ class CFB : OperationMode
 public:
 	static void encrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -124,9 +120,8 @@ public:
 
 	static void decrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -160,9 +155,8 @@ class OFB : OperationMode
 public:
 	static void encrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -193,9 +187,8 @@ public:
 
 	static void decrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -229,9 +222,8 @@ class CBC : OperationMode
 public:
 	static void encrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];
@@ -262,9 +254,8 @@ public:
 
 	static void decrypt(
 		istream& ist, ostream& ost,
-		const size_t block_size, const vector<byte>& key, const byte *init_vector,
-		byte *(*algorithm)(const byte* block, const size_t block_size, const vector<byte>& key),
-		void(*padding)(byte *block, const size_t block_size, const size_t filled_blocks)
+		const size_t block_size, const TKey& key, const byte *init_vector,
+		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
 		byte *block = new byte[block_size + 1];

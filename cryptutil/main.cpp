@@ -2,9 +2,11 @@
 #include <iostream>
 #include <string>
 #include "cryptutil.h"
-#include "ciphers.h"
 #include "cipher_modes.h"
+#include "ciphers.h"
 #include "padding_modes.h"
+#include "Pattern.h"
+
 
 
 using namespace std;
@@ -12,7 +14,7 @@ using namespace std;
 
 int main()
 {
-	vector<byte> key;
+	TKey key;
 	key.push_back(2);
 	key.push_back(0);
 	key.push_back(1);
@@ -26,7 +28,7 @@ int main()
 			
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);
-			OFB::decrypt(ost, d, 3, key, init_vector, Vigenere::encrypt, Padding::iso10126);
+			ECB::decrypt(ost, d, 3, key, init_vector, get_decrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
 			ost.close();
 			d.close();
 		}
@@ -38,7 +40,7 @@ int main()
 			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			OFB::encrypt(ist, ost, 3, key, init_vector, Vigenere::encrypt, Padding::iso10126);
+			ECB::encrypt(ist, ost, 3, key, init_vector, get_encrypt_algorithm<Vigenere>(OperationMode::ECB), Padding::iso10126);
 			ost.close();
 			ist.close();
 		}

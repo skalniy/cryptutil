@@ -149,6 +149,7 @@
     <ClInclude Include="cipher_modes.h" />
     <ClInclude Include="cryptutil.h" />
     <ClInclude Include="padding_modes.h" />
+    <ClInclude Include="Pattern.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

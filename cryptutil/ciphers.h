@@ -1,6 +1,5 @@
 #pragma once
 #include "cryptutil.h"
-#include <vector>
 
 
 
@@ -10,15 +9,15 @@ using namespace std;
 class Cipher
 {
 public:
-	virtual byte* encrypt(const byte* block, const size_t block_size, const vector<byte>& key) = 0;
-	virtual	byte* decrypt(const byte* block, const size_t block_size, const vector<byte>& key) = 0;
+	virtual byte* encrypt(const byte* block, const size_t block_size, const TKey& key) = 0;
+	virtual	byte* decrypt(const byte* block, const size_t block_size, const TKey& key) = 0;
 };
 
 
 class Transposition : Cipher
 {
 public:
-	static byte* encrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* encrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -30,7 +29,7 @@ public:
 	}
 
 
-	static byte* decrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* decrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -46,7 +45,7 @@ public:
 class Vigenere : Cipher
 {
 public:
-	static byte* encrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* encrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -58,7 +57,7 @@ public:
 	}
 
 
-	static byte* decrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* decrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -74,7 +73,7 @@ public:
 class Hill : Cipher
 {
 public:
-	static byte* encrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* encrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
@@ -89,7 +88,7 @@ public:
 	}
 
 
-	static byte* decrypt(const byte* block, const size_t block_size, const vector<byte>& key)
+	static byte* decrypt(const byte* block, const size_t block_size, const TKey& key)
 	{
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
