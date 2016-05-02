@@ -48,11 +48,11 @@ class Pattern
 {
 public:
 	//Pattern() {}
-	Pattern(string _name = "", Cipher::algorithm _cipher = Cipher::algorithm::VIGENERE,
+	Pattern(Cipher::algorithm _cipher = Cipher::algorithm::VIGENERE,
 		TKey _key = TKey(), const byte* init_vector = nullptr,
 		OperationMode::mode _op_mode = OperationMode::ECB, 
 		Padding::mode _pad_mode = Padding::ANSI_X923)
-		: name(_name), cipher(_cipher), key(_key), op_mode(_op_mode)  
+		: /*name(_name),*/ cipher(_cipher), key(_key), op_mode(_op_mode)  
 	{
 		switch (cipher)
 		{
@@ -122,7 +122,7 @@ public:
 
 	friend ofstream& operator<<(ofstream& fout, const Pattern& rhs)
 	{
-		fout << rhs.name << endl;
+		//fout << rhs.name << endl;
 
 		fout << rhs.cipher << "\t"
 			<< rhs.op_mode << "\t"
@@ -136,8 +136,6 @@ public:
 			fout << rhs.initialization_vector[i];
 		fout << endl;
 
-		
-
 		return fout;
 	}
 
@@ -146,7 +144,7 @@ public:
 		char foo;
 		int fee;
 
-		fin >> rhs.name;
+		//fin >> rhs.name;
 
 		fin >> fee;
 		rhs.cipher = static_cast<Cipher::algorithm>(fee);
@@ -172,7 +170,7 @@ public:
 	}
 
 private:
-	string name;
+	//string name;
 	TKey key;
 	byte* initialization_vector;
 	Cipher::algorithm cipher;
@@ -181,6 +179,4 @@ private:
 	crypto_algorithm encrypt_algorithm;
 	crypto_algorithm decrypt_algorithm;
 	size_t block_size;
-
-	//size_t get_block_size;
 };

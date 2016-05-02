@@ -20,48 +20,44 @@ int main()
 	key.push_back(1);
 	byte init_vector[] = { 'm', 'i', 'r', '\0' };
 
-	Pattern& p = Pattern(
-		"check", Cipher::algorithm::VIGENERE, 
-		key, init_vector, 
-		OperationMode::CBC, Padding::ISO10126);
-
 	map<string, Pattern> patterns;
-	patterns["check"] = p;
 	string cmd;
 	do
 	{
+		cout << "cryptutil > ";
 		cin >> cmd;
-		if (cmd == "dec") {
+		/*if (cmd == "dec") {
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);  
 			patterns["check"].decrypt(ost, d);
 			ost.close();
 			d.close();
 		} else if (cmd == "enc") {
-			/*int n;
-			for (int i = 0; i < 9; i++) {
-				cin >> n;
-				key.push_back(n);
-			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
 			patterns["check"].encrypt(ist, ost);
 			ost.close();
-			ist.close();
-		} else if (cmd == "print") {
-			ofstream ost("data.txt", ios::app);
-			ost << p;
+			ist.close();*/
+
+		if (cmd == "save") {
+			string name;
+			cin >> name;
+			ofstream ost(name+".crut");
+			ost << patterns[name];
 			ost.close();
+
 		} else if (cmd == "import") {
 			string fname;
 			cin >> fname;
-			ifstream ist(fname);
+			ifstream ist(fname+".crut");
 			ist >> patterns[fname];
 			ist.close();
+		} else	{
+			cout << "unknown command" << endl;
 		}
 	} while (cmd != "quit");
 
 	
-
+	patterns.clear();
 	return 0;
 }
