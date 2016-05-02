@@ -26,7 +26,7 @@ int main()
 			
 			ifstream ost("out.txt", ios::binary);
 			ofstream d("dec.txt", ios::binary);
-			ECB<Vigenere>::decrypt(ost, d, 3, key, init_vector, Padding::ansi_x923);
+			OFB::decrypt(ost, d, 3, key, init_vector, Vigenere::encrypt, Padding::iso10126);
 			ost.close();
 			d.close();
 		}
@@ -38,7 +38,7 @@ int main()
 			}*/
 			ifstream ist("in.txt", ios::binary);
 			ofstream ost("out.txt", ios::binary);
-			ECB<Vigenere>::encrypt(ist, ost, 3, key, init_vector, Padding::iso10126);
+			OFB::encrypt(ist, ost, 3, key, init_vector, Vigenere::encrypt, Padding::iso10126);
 			ost.close();
 			ist.close();
 		}
