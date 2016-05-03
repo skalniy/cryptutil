@@ -98,6 +98,8 @@ public:
 			CBC::encrypt(fin, fout, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		}
+
+		history.push_back(HistoryElement(fin, fout, "encrypt"));
 	}
 
 
@@ -117,13 +119,20 @@ public:
 			CBC::decrypt(fin, fout, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		}
+
+		history.push_back(HistoryElement(fin, fout, "decrypt"));
 	}
 
+	void show_history() {
+		for (auto i : history)
+			cout << i.mode << ": " <<
+			i.iname << " -> " << i.oname << endl;
+
+		return;
+	}
 
 	friend ostream& operator<<(ostream& fout, const Pattern& rhs)
 	{
-		//fout << rhs.name << endl;
-
 		fout << rhs.cipher << "\t"
 			<< rhs.op_mode << "\t"
 			<< rhs.pad_mode << endl;
@@ -176,4 +185,14 @@ private:
 	crypto_algorithm encrypt_algorithm;
 	crypto_algorithm decrypt_algorithm;
 	size_t block_size;
+
+	struct HistoryElement
+	{
+		string iname;
+		string oname;
+		string mode;
+		HistoryElement(string _iname, string _oname, string _mode)
+		: iname(_iname), oname(_oname), mode(_mode) {}
+	};
+	list<HistoryElement> history;
 };

@@ -40,6 +40,12 @@ int main()
 			string name;
 			cin >> name;
 			cin >> patterns[name];
+
+		} else if (cmd == "hist") {
+			string name;
+			cin >> name;
+			patterns[name].show_history();
+
 		} else if (cmd == "chain") {
 			string name;
 			cin >> name;
@@ -81,20 +87,26 @@ int main()
 			if (mode == "e") {
 				for (TChain::iterator it = chains[cmd].begin(); it != chains[cmd].end(); it++) {
 					srand((unsigned)time(NULL));
+					_sleep(1000);
 					_fout = to_string(rand());
 					patterns[*it].encrypt(_fin, _fout);
+					if (_fin != fin)
+						remove(_fin.c_str());
 					_fin = _fout;
 				}
-				rename(_fout.c_str(), fout.c_str());
+				
 			} else if (mode == "d") {
 				for (TChain::reverse_iterator it = chains[cmd].rbegin(); it != chains[cmd].rend(); it++) {
 					srand((unsigned)time(NULL));
+					_sleep(1000);
 					_fout = to_string(rand());
 					patterns[*it].decrypt(_fin, _fout);
+					if (_fin != fin)
+						remove(_fin.c_str());
 					_fin = _fout;
 				}
-				rename(_fout.c_str(), fout.c_str());
 			}
+			rename(_fout.c_str(), fout.c_str());
 
 		} else	{
 			cout << "unknown command" << endl;
