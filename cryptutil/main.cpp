@@ -49,9 +49,25 @@ int main()
 		} else if (cmd == "import") {
 			string fname;
 			cin >> fname;
-			ifstream ist(fname+".crut");
+			ifstream ist(fname + ".crut");
 			ist >> patterns[fname];
 			ist.close();
+		} else if (patterns.count(cmd)) {
+			string mode;
+			cin >> mode;
+			if (mode == "d") {
+				ifstream ost("out.txt", ios::binary);
+				ofstream d("dec.txt", ios::binary);
+				patterns[cmd].decrypt(ost, d);
+				ost.close();
+				d.close();
+			} else if (mode == "e") {
+				ifstream ist("in.txt", ios::binary);
+				ofstream ost("out.txt", ios::binary);
+				patterns[cmd].encrypt(ist, ost);
+				ost.close();
+				ist.close();
+			}
 		} else	{
 			cout << "unknown command" << endl;
 		}

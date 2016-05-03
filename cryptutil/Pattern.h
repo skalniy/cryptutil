@@ -47,12 +47,11 @@ crypto_algorithm get_decrypt_algorithm(OperationMode::mode mode) {
 class Pattern
 {
 public:
-	//Pattern() {}
 	Pattern(Cipher::algorithm _cipher = Cipher::algorithm::VIGENERE,
 		TKey _key = TKey(), const byte* init_vector = nullptr,
 		OperationMode::mode _op_mode = OperationMode::ECB, 
 		Padding::mode _pad_mode = Padding::ANSI_X923)
-		: /*name(_name),*/ cipher(_cipher), key(_key), op_mode(_op_mode)  
+		: cipher(_cipher), key(_key), op_mode(_op_mode)  
 	{
 		switch (cipher)
 		{
@@ -144,8 +143,6 @@ public:
 		char foo;
 		int fee;
 
-		//fin >> rhs.name;
-
 		fin >> fee;
 		rhs.cipher = static_cast<Cipher::algorithm>(fee);
 		fin >> fee;
@@ -170,7 +167,6 @@ public:
 	}
 
 private:
-	//string name;
 	TKey key;
 	byte* initialization_vector;
 	Cipher::algorithm cipher;
