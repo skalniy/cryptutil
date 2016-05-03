@@ -11,14 +11,14 @@ class OperationMode
 {
 public:
 	virtual void encrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
 
 
 	virtual void decrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
@@ -31,11 +31,14 @@ class ECB : OperationMode
 {
 public:
 	static void encrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		) 
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -51,17 +54,22 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		return;
 	}
 
 
 	static void decrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -77,6 +85,8 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		return;
 	}
@@ -87,11 +97,14 @@ class CFB : OperationMode
 {
 public:
 	static void encrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -113,17 +126,22 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;
 	}
 
 	static void decrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -143,6 +161,8 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;
@@ -154,11 +174,14 @@ class OFB : OperationMode
 {
 public:
 	static void encrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -180,17 +203,22 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;
 	}
 
 	static void decrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -210,6 +238,8 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;
@@ -221,11 +251,14 @@ class CBC : OperationMode
 {
 public:
 	static void encrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -247,17 +280,22 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;
 	}
 
 	static void decrypt(
-		istream& ist, ostream& ost,
+		string fin, string fout,
 		const size_t block_size, const TKey& key, const byte *init_vector,
 		crypto_algorithm algorithm, padding_algorithm padding
 		)
 	{
+		ifstream ist(fin, ios::binary);
+		ofstream ost(fout, ios::binary);
+
 		byte *block = new byte[block_size + 1];
 		block[block_size] = '\0';
 
@@ -277,6 +315,8 @@ public:
 			}
 		}
 
+		ist.close();
+		ost.close();
 		delete[] block;
 		delete[] IV;
 		return;

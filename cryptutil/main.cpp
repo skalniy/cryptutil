@@ -26,18 +26,6 @@ int main()
 	{
 		cout << "cryptutil > ";
 		cin >> cmd;
-		/*if (cmd == "dec") {
-			ifstream ost("out.txt", ios::binary);
-			ofstream d("dec.txt", ios::binary);  
-			patterns["check"].decrypt(ost, d);
-			ost.close();
-			d.close();
-		} else if (cmd == "enc") {
-			ifstream ist("in.txt", ios::binary);
-			ofstream ost("out.txt", ios::binary);
-			patterns["check"].encrypt(ist, ost);
-			ost.close();
-			ist.close();*/
 
 		if (cmd == "save") {
 			string name;
@@ -52,22 +40,24 @@ int main()
 			ifstream ist(fname + ".crut");
 			ist >> patterns[fname];
 			ist.close();
+		} else if (cmd == "create") {
+			string name;
+			cin >> name;
+			patterns.erase(name);
+
+		} else if (cmd == "erase") {
+			string name;
+			cin >> name;
+			patterns.erase(name);
+
 		} else if (patterns.count(cmd)) {
-			string mode;
-			cin >> mode;
-			if (mode == "d") {
-				ifstream ost("out.txt", ios::binary);
-				ofstream d("dec.txt", ios::binary);
-				patterns[cmd].decrypt(ost, d);
-				ost.close();
-				d.close();
-			} else if (mode == "e") {
-				ifstream ist("in.txt", ios::binary);
-				ofstream ost("out.txt", ios::binary);
-				patterns[cmd].encrypt(ist, ost);
-				ost.close();
-				ist.close();
-			}
+			string mode, fin, fout;
+			cin >> mode >> fin >> fout;
+			
+			if (mode == "d")
+				patterns[cmd].decrypt(fin, fout);
+			else if (mode == "e")
+				patterns[cmd].encrypt(fin, fout);
 		} else	{
 			cout << "unknown command" << endl;
 		}

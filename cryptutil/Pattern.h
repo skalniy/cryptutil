@@ -81,45 +81,45 @@ public:
 	}
 
 
-	void encrypt(istream& ist, ostream& ost) {
+	void encrypt(string fin, string fout) {
 		switch (op_mode)
 		{
 		case OperationMode::ECB:
-			ECB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			ECB::encrypt(fin, fout, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::CFB:
-			CFB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			CFB::encrypt(fin, fout, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::OFB:
-			OFB::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			OFB::encrypt(fin, fout, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::CBC:
-			CBC::encrypt(ist, ost, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			CBC::encrypt(fin, fout, block_size, key, initialization_vector, encrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		}
 	}
 
 
-	void decrypt(istream& ist, ostream& ost) {
+	void decrypt(string fin, string fout) {
 		switch (op_mode)
 		{
 		case OperationMode::ECB:
-			ECB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			ECB::decrypt(fin, fout, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::CFB:
-			CFB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			CFB::decrypt(fin, fout, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::OFB:
-			OFB::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			OFB::decrypt(fin, fout, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		case OperationMode::CBC:
-			CBC::decrypt(ist, ost, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
+			CBC::decrypt(fin, fout, block_size, key, initialization_vector, decrypt_algorithm, Padding::get_padding_algorithm(pad_mode));
 			break;
 		}
 	}
 
 
-	friend ofstream& operator<<(ofstream& fout, const Pattern& rhs)
+	friend ostream& operator<<(ostream& fout, const Pattern& rhs)
 	{
 		//fout << rhs.name << endl;
 
@@ -139,7 +139,7 @@ public:
 	}
 
 
-	friend ifstream& operator>>(ifstream& fin, Pattern& rhs) {
+	friend istream& operator>>(istream& fin, Pattern& rhs) {
 		char foo;
 		int fee;
 

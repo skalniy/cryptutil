@@ -105,6 +105,8 @@ public:
 		byte* result = new byte[block_size + 1];
 		result[block_size] = '\0';
 
+		cout << "to decrypt Hill cipher buy full version" << endl;
+
 		return result;
 	}
 };
