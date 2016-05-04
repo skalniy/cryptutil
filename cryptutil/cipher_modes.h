@@ -70,6 +70,7 @@ public:
 		) 
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -101,6 +102,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -136,6 +138,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -173,6 +176,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -213,6 +217,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -250,6 +255,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -290,6 +296,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];
@@ -327,6 +334,7 @@ public:
 		)
 	{
 		ifstream ist(fin, ios::binary);
+		if (!ist.good()) throw FileNotFound(fin);
 		ofstream ost(fout, ios::binary);
 
 		byte *block = new byte[block_size + 1];

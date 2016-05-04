@@ -148,6 +148,7 @@
     <ClInclude Include="ciphers.h" />
     <ClInclude Include="cipher_modes.h" />
     <ClInclude Include="cryptutil.h" />
+    <ClInclude Include="exceptions.h" />
     <ClInclude Include="padding_modes.h" />
     <ClInclude Include="Pattern.h" />
   </ItemGroup>

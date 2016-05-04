@@ -20,6 +20,8 @@ public:
 		case Cipher::VIGENERE:
 			return key_size;
 		case Cipher::HILL:
+			if (floor(sqrt(key_size)) == sqrt(key_size))
+				throw InvalidKeySize();
 			return static_cast<size_t>(sqrt(key_size));
 		}
 	}

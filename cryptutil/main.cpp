@@ -14,7 +14,7 @@ using namespace std;
 
 map<string, Pattern> patterns;
 map<string, TChain> chains;
-enum States { OK, ERR };
+enum States { OK, EXIT };
 
 
 States cmdProc(istream& cmd_stream);
@@ -26,7 +26,7 @@ int main()
 
 	do {
 		cout << "cryptutil > ";
-	} while (cmdProc(cin) != ERR);
+	} while (cmdProc(cin) != EXIT);
 
 	patterns.clear();
 	chains.clear();
@@ -34,7 +34,7 @@ int main()
 }
 
 
-States cmdProc(istream& ist) {
+States cmdProc(istream& ist) try {
 	string full_command;
 	getline(ist, full_command);
 
@@ -45,7 +45,7 @@ States cmdProc(istream& ist) {
 	cmd_stream >> cmd;
 
 	if (cmd == "quit") {
-		return ERR;
+		return EXIT;
 
 	} else if (patterns.count(cmd)) {
 		string mode;
@@ -125,6 +125,7 @@ States cmdProc(istream& ist) {
 		string ifname;
 		cmd_stream >> ifname;
 		ifstream ist(ifname + ".crut");
+		if (!ist.good()) throw FileNotFound(ifname + ".crut");
 		ist >> patterns[ifname];
 		ist.close();
 
@@ -132,19 +133,22 @@ States cmdProc(istream& ist) {
 		string ifname;
 		cmd_stream >> ifname;
 		ifstream ist(ifname + ".crus");
+		if (!ist.good()) throw FileNotFound(ifname + ".crus");
 		int state = OK;
 		while (!ist.eof()) {
 			state = cmdProc(ist);
-			if (state == ERR) {
+			if (state == EXIT) {
 				ist.close();
-				return ERR;
+				return EXIT;
 			}
 		}
 		ist.close();
 
 	} else {
-		cout << "unknown command: " << cmd << endl;
+		throw UnknownCommand(cmd);
 	}
 
 	return OK;
+} catch (exception& e) {
+	cerr << e.what() << endl;
 }
