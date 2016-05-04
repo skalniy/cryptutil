@@ -8,112 +8,128 @@
 #include <map>
 
 
+
 using namespace std;
+
+
+map<string, Pattern> patterns;
+map<string, TChain> chains;
+
+
+int cmdProc(istream& cmd_stream);
 
 
 int main()
 {
-	map<string, Pattern> patterns;
-	map<string, TChain> chains;
+	string cmd;
+
+	do {
+		cout << "cryptutil > ";
+	} while (cmdProc(cin) != -1);
+
+	patterns.clear();
+	chains.clear();
+	return 0;
+}
+
+
+int cmdProc(istream& ist) {
+	string full_command;
+	getline(ist, full_command);
+
+	stringstream cmd_stream;
+	cmd_stream << full_command;
 
 	string cmd;
-	do
-	{
-		cout << "cryptutil > ";
-		cin >> cmd;
+	cmd_stream >> cmd;
 
-		if (cmd == "save") {
-			string name;
-			cin >> name;
-			ofstream ost(name+".crut");
-			ost << patterns[name];
-			ost.close();
+	if (cmd == "quit") {
+		return -1;
 
-		} else if (cmd == "import") {
-			string fname;
-			cin >> fname;
-			ifstream ist(fname + ".crut");
-			ist >> patterns[fname];
-			ist.close();
+	} else if (patterns.count(cmd)) {
+		string mode;
+		string ifname, ofname;
+		cmd_stream >> mode;
+		cmd_stream >> ifname >> ofname;
 
-		} else if (cmd == "create") {
-			string name;
-			cin >> name;
-			cin >> patterns[name];
+		if (mode == "e") patterns[cmd].encrypt(ifname, ofname);
+		else if (mode == "d") patterns[cmd].decrypt(ifname, ofname);
 
-		} else if (cmd == "hist") {
-			string name;
-			cin >> name;
-			patterns[name].show_history();
+	} else if (chains.count(cmd)) {
+		string mode;
+		string ifname, ofname, _ifname, _ofname;
+		cmd_stream >> mode;
+		cmd_stream >> ifname >> ofname;
 
-		} else if (cmd == "chain") {
-			string name;
-			cin >> name;
-			string args;
-			getline(cin, args);
-			TChain chain;
-			stringstream ss;
-			ss << args;
-			while (ss) {
-				string arg;
-				ss >> arg;
-				if (arg != "")
-					chain.push_back(arg);
+		_ifname = ifname;
+		if (mode == "e")
+			for (TChain::iterator it = chains[cmd].begin(); it != chains[cmd].end(); it++) {
+				srand((unsigned)time(NULL));
+				_sleep(1000);
+				_ofname = to_string(rand());
+				patterns[*it].encrypt(_ifname, _ofname);
+				if (_ifname != ifname)
+					remove(_ifname.c_str());
+				_ifname = _ofname;
 			}
-			chains[name] = chain;
-
-		} else if (cmd == "erase") {
-			string name;
-			cin >> name;
-			patterns.erase(name);
-			chains.erase(name);
-
-		} else if (patterns.count(cmd)) {
-			string mode;
-			string fin, fout;
-			cin >> mode >> fin >> fout;
-			
-			if (mode == "d")
-				patterns[cmd].decrypt(fin, fout);
-			else if (mode == "e")
-				patterns[cmd].encrypt(fin, fout);
-
-		} else if (chains.count(cmd)) {
-			string mode;
-			string fin, fout, _fin, _fout;
-			cin >> mode >> fin >> fout;
-	
-			_fin = fin;
-			if (mode == "e") {
-				for (TChain::iterator it = chains[cmd].begin(); it != chains[cmd].end(); it++) {
-					srand((unsigned)time(NULL));
-					_sleep(1000);
-					_fout = to_string(rand());
-					patterns[*it].encrypt(_fin, _fout);
-					if (_fin != fin)
-						remove(_fin.c_str());
-					_fin = _fout;
-				}
-				
-			} else if (mode == "d") {
-				for (TChain::reverse_iterator it = chains[cmd].rbegin(); it != chains[cmd].rend(); it++) {
-					srand((unsigned)time(NULL));
-					_sleep(1000);
-					_fout = to_string(rand());
-					patterns[*it].decrypt(_fin, _fout);
-					if (_fin != fin)
-						remove(_fin.c_str());
-					_fin = _fout;
-				}
+		else if (mode == "d")
+			for (TChain::reverse_iterator it = chains[cmd].rbegin(); it != chains[cmd].rend(); it++) {
+				srand((unsigned)time(NULL));
+				_sleep(1000);
+				_ofname = to_string(rand());
+				patterns[*it].decrypt(_ifname, _ofname);
+				if (_ifname != ifname)
+					remove(_ifname.c_str());
+				_ifname = _ofname;
 			}
-			rename(_fout.c_str(), fout.c_str());
+		rename(_ofname.c_str(), ofname.c_str());
 
-		} else	{
-			cout << "unknown command" << endl;
+	} else if (cmd == "create") {
+		string name;
+		cmd_stream >> name;
+		cmd_stream >> patterns[name];
+
+	} else if (cmd == "erase") {
+		string name;
+		cmd_stream >> name;
+		patterns.erase(name);
+		chains.erase(name);
+
+	} else if (cmd == "chain") {
+		TChain chain;
+		string cname;
+		string pname;
+		cmd_stream >> cname;
+
+		while (cmd_stream) {
+			cmd_stream >> pname;
+			if (pname != "")
+				chain.push_back(pname);
 		}
-	} while (cmd != "quit");
+		chains[cname] = chain;
 
-	
-	patterns.clear();
+	} else if (cmd == "hist") {
+		string name;
+		cmd_stream >> name;
+		patterns[name].show_history();
+
+	} else if (cmd == "save") {
+		string ofname;
+		cmd_stream >> ofname;
+		ofstream ost(ofname + ".crut");
+		ost << patterns[ofname];
+		ost.close();
+
+	} else if (cmd == "import") {
+		string ifname;
+		cmd_stream >> ifname;
+		ifstream ist(ifname + ".crut");
+		ist >> patterns[ifname];
+		ist.close();
+
+	} else {
+		cout << "unknown command: " << cmd << endl;
+	}
+
 	return 0;
 }
