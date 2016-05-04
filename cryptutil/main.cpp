@@ -14,9 +14,10 @@ using namespace std;
 
 map<string, Pattern> patterns;
 map<string, TChain> chains;
+enum States { OK, ERR };
 
 
-int cmdProc(istream& cmd_stream);
+States cmdProc(istream& cmd_stream);
 
 
 int main()
@@ -25,7 +26,7 @@ int main()
 
 	do {
 		cout << "cryptutil > ";
-	} while (cmdProc(cin) != -1);
+	} while (cmdProc(cin) != ERR);
 
 	patterns.clear();
 	chains.clear();
@@ -33,7 +34,7 @@ int main()
 }
 
 
-int cmdProc(istream& ist) {
+States cmdProc(istream& ist) {
 	string full_command;
 	getline(ist, full_command);
 
@@ -44,7 +45,7 @@ int cmdProc(istream& ist) {
 	cmd_stream >> cmd;
 
 	if (cmd == "quit") {
-		return -1;
+		return ERR;
 
 	} else if (patterns.count(cmd)) {
 		string mode;
@@ -127,9 +128,23 @@ int cmdProc(istream& ist) {
 		ist >> patterns[ifname];
 		ist.close();
 
+	} else if (cmd == "run") {
+		string ifname;
+		cmd_stream >> ifname;
+		ifstream ist(ifname + ".crus");
+		int state = OK;
+		while (!ist.eof()) {
+			state = cmdProc(ist);
+			if (state == ERR) {
+				ist.close();
+				return ERR;
+			}
+		}
+		ist.close();
+
 	} else {
 		cout << "unknown command: " << cmd << endl;
 	}
 
-	return 0;
+	return OK;
 }
