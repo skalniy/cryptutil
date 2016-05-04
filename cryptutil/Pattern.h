@@ -11,40 +11,6 @@
 using namespace std;
 
 
-template <class TCipher>
-crypto_algorithm get_encrypt_algorithm(OperationMode::mode mode) {
-
-	switch (mode)
-	{
-	case OperationMode::ECB:
-		return TCipher::encrypt;
-	case OperationMode::CFB:
-		return TCipher::encrypt;
-	case OperationMode::OFB:
-		return TCipher::encrypt;
-	case OperationMode::CBC:
-		return TCipher::encrypt;
-	}
-}
-
-
-template <class TCipher>
-crypto_algorithm get_decrypt_algorithm(OperationMode::mode mode) {
-
-	switch (mode)
-	{
-	case OperationMode::ECB:
-		return TCipher::decrypt;
-	case OperationMode::CFB:
-		return TCipher::encrypt;
-	case OperationMode::OFB:
-		return TCipher::encrypt;
-	case OperationMode::CBC:
-		return TCipher::decrypt;
-	}
-}
-
-
 class Pattern
 {
 public:
@@ -57,16 +23,16 @@ public:
 		switch (cipher)
 		{
 		case Cipher::algorithm::TRANSPOSITION:
-			encrypt_algorithm = get_encrypt_algorithm<Transposition>(op_mode);
-			decrypt_algorithm = get_decrypt_algorithm<Transposition>(op_mode);
+			encrypt_algorithm = OperationMode::get_encrypt_algorithm<Transposition>(op_mode);
+			decrypt_algorithm = OperationMode::get_decrypt_algorithm<Transposition>(op_mode);
 			break;
 		case Cipher::algorithm::VIGENERE:
-			encrypt_algorithm = get_encrypt_algorithm<Vigenere>(op_mode);
-			decrypt_algorithm = get_decrypt_algorithm<Vigenere>(op_mode);
+			encrypt_algorithm = OperationMode::get_encrypt_algorithm<Vigenere>(op_mode);
+			decrypt_algorithm = OperationMode::get_decrypt_algorithm<Vigenere>(op_mode);
 			break;
 		case Cipher::algorithm::HILL:
-			encrypt_algorithm = get_encrypt_algorithm<Hill>(op_mode);
-			decrypt_algorithm = get_decrypt_algorithm<Hill>(op_mode);
+			encrypt_algorithm = OperationMode::get_encrypt_algorithm<Hill>(op_mode);
+			decrypt_algorithm = OperationMode::get_decrypt_algorithm<Hill>(op_mode);
 			break;
 		}
 		block_size = Cipher::get_block_size(key.size(), cipher);
@@ -123,6 +89,7 @@ public:
 		history.push_back(HistoryElement(fin, fout, "decrypt"));
 	}
 
+
 	void show_history() {
 		for (auto i : history)
 			cout << i.mode << ": " <<
@@ -130,6 +97,7 @@ public:
 
 		return;
 	}
+
 
 	friend ostream& operator<<(ostream& fout, const Pattern& rhs)
 	{

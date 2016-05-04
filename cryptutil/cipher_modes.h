@@ -23,7 +23,40 @@ public:
 		crypto_algorithm algorithm, padding_algorithm padding
 		) = 0;
 
+
 	enum mode { ECB, CFB, OFB, CBC };
+
+
+	template <class TCipher>
+	static crypto_algorithm get_encrypt_algorithm(mode _mode) {
+		switch (_mode)
+		{
+		case OperationMode::ECB:
+			return TCipher::encrypt;
+		case OperationMode::CFB:
+			return TCipher::encrypt;
+		case OperationMode::OFB:
+			return TCipher::encrypt;
+		case OperationMode::CBC:
+			return TCipher::encrypt;
+		}
+	}
+
+
+	template <class TCipher>
+	static crypto_algorithm get_decrypt_algorithm(OperationMode::mode mode) {
+		switch (mode)
+		{
+		case OperationMode::ECB:
+			return TCipher::decrypt;
+		case OperationMode::CFB:
+			return TCipher::encrypt;
+		case OperationMode::OFB:
+			return TCipher::encrypt;
+		case OperationMode::CBC:
+			return TCipher::decrypt;
+		}
+	}
 };
 
 
